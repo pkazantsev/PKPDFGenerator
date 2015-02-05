@@ -214,7 +214,7 @@ public class PDFGenerator: NSObject {
                 case let .TextCell(cellText, attributes):
                     let text = self.attributedStringWithText(cellText, columnAttributes: column.textAttributes, cellAttributes: attributes)
 
-                    let maxTextRect = CGSizeMake(CGFloat(columnWidth - tableCellPadding) * 2, CGFloat.max)
+                    let maxTextRect = CGSizeMake(CGFloat(columnWidth - tableCellPadding * 2), CGFloat.max)
                     let textBounds = text.boundingRectWithSize(maxTextRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
                     let newRowHeight = Float(textBounds.size.height) + tableCellPadding * 2
                     if newRowHeight > rowHeight {
