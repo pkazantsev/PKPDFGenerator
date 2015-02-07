@@ -35,29 +35,41 @@ public struct PDFTableColumn {
 }
 
 public struct PDFTableRow {
-    public let rowCells: Array<PDFTableCell?>
+    public let rowCells: Array<PDFTableCell>
 
-    public init(rowCells: Array<PDFTableCell?>) {
+    public init(rowCells: Array<PDFTableCell>) {
         self.rowCells = rowCells
     }
 }
 
 public enum PDFTableCell {
-    case TextCell(text: String, textAttributes: Array<PDFTableTextAttribute>?)
-    case ImageCell(image: UIImage)
-    case CustomCell((size: CGSize) -> ())
-}
-
-public enum PDFTableTextFontWeight {
-    case Normal
-    case Italic
-    case Bold
+    case EmptyCell(cellAttributes: Array<PDFTableCellAttribute>?)
+    case TextCell(String, textAttributes: Array<PDFTableTextAttribute>?, cellAttributes: Array<PDFTableCellAttribute>?)
+    case ImageCell(UIImage, cellAttributes: Array<PDFTableCellAttribute>?)
+    case CustomCell((frame: CGRect) -> (), cellAttributes: Array<PDFTableCellAttribute>?)
 }
 
 public enum PDFTableTextAttribute {
-    case Alignment(value: NSTextAlignment)
+    case Alignment(NSTextAlignment)
 
-    case FontWeight(value: PDFTableTextFontWeight, range: NSRange)
-    case FontSizeAbsolute(value: Float, range: NSRange)
-    case FontSizeRelative(value: Float, range: NSRange)
+    case FontWeight(TextFontWeight, range: NSRange)
+    case FontSizeAbsolute(Float, range: NSRange)
+    case FontSizeRelative(Float, range: NSRange)
+
+    public enum TextFontWeight {
+        case Normal
+        case Italic
+        case Bold
+    }
+}
+
+public enum PDFTableCellAttribute {
+    case FrameWidth(FrameWidthAttribute)
+    case FrameColor(UIColor)
+    case FillColor(UIColor?) // Allows to reset fill color
+
+    public enum FrameWidthAttribute {
+        case NoWidth
+        case Fixed(Float)
+    }
 }
