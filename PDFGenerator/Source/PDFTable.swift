@@ -7,6 +7,8 @@
 //
 import UIKit
 
+/// The PDFTable protocol should be implemented
+/// to represent data for a table to be drawn on PDF document
 public protocol PDFTable {
     var columns: Array<PDFTableColumn> { get }
 
@@ -42,6 +44,12 @@ public struct PDFTableRow {
     }
 }
 
+/// PDFTableCell represent a cell of table. Can be of type:
+///
+/// - EmptyCell - Just a frame unless attributes contains FrameWidth.NoWidth attribute
+/// - TextCell - Draws text with specified text attributes in a cell
+/// - ImageCell - Draws image in a cell
+/// - CustomCell - Block executed expected to draw something in frame passed
 public enum PDFTableCell {
     case EmptyCell(cellAttributes: Array<PDFTableCellAttribute>?)
     case TextCell(String, textAttributes: Array<PDFTableTextAttribute>?, cellAttributes: Array<PDFTableCellAttribute>?)

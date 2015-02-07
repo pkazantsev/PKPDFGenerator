@@ -17,12 +17,25 @@ public func pointsFromMm(value: Float) -> Float {
     return (value / 25.4) * 72
 }
 
+/// Page sizes which can be set. Avaiable standard sizes:
+///
+/// - A5
+/// - A4
+/// - US Letter
+public enum PDFPageSize {
+    case A4
+    case A5
+    case Letter
+}
+
+public enum PDFPageOrientation {
+    case Portrait
+    case Landscape
+}
+
 let documentTitleFontSize: Float = 12.0
 
 private let vSpaceAfterPageTitle = pointsFromMm(10)
-
-private let tableCellPadding: Float = 2.0
-private let tableHeaderHeight: Float = 15.0
 
 private let defaultTableFrameWidth = pointsFromMm(0.2)
 
@@ -43,17 +56,27 @@ private let DRAW_STRING_RECT = true
 
 public class PDFGenerator: NSObject {
 
+    public let tableCellPadding: Float = 2.0
+    public let tableHeaderHeight: Float = 15.0
+
     public var pageTitle: String?
 
+    /// Default 9 pt
     public var defaultTextFontSize: Float = 9.0
 
+    /// Default 25 mm
     public var pageLeftMargin   = pointsFromMm(25)
+    /// Default 10 mm
     public var pageTopMargin    = pointsFromMm(10)
+    /// Default 10 mm
     public var pageRightMargin  = pointsFromMm(10)
+    /// Default 10 mm
     public var pageBottomMargin = pointsFromMm(10)
 
+    /// Default 5 mm
     public let minSpaceBetweenBlocks = pointsFromMm(5)
 
+    /// Default Helvetica Neue
     public var defaultFontName = "HelveticaNeue"
     public var defaultBoldFontName: String {
         return "\(defaultFontName)-Bold"
@@ -62,11 +85,14 @@ public class PDFGenerator: NSObject {
         return "\(defaultFontName)-Italic"
     }
 
+    /// Default page size is A4 in portrait (width - 210mm, height - 297mm).
+    ///
+    /// To set standard page size use setPageFormat(PDFPageSize, PDFPageOrientation)
     public var pageWidth  = pointsFromMm(210)
+    /// Default page size is A4 in portrait (width - 210mm, height - 297mm).
+    ///
+    /// To set standard page size use setPageFormat(PDFPageSize, PDFPageOrientation)
     public var pageHeight = pointsFromMm(297)
-    public var pageBounds: CGRect {
-        return CGRectMake(0, 0, CGFloat(pageWidth), CGFloat(pageHeight))
-    }
 
     public var contentMaxWidth: Float {
         return pageWidth - pageLeftMargin - pageRightMargin
@@ -85,6 +111,11 @@ public class PDFGenerator: NSObject {
         super.init()
     }
 
+    /// Adds document info to PDF document metadata. Supported:
+    ///
+    /// - DocumentName
+    /// - CreatorName
+    /// - Subject
     public func addDocumentInfo(param: PDFDocumentInfo, value: String) {
         var paramName: String
         switch param {
@@ -95,30 +126,57 @@ public class PDFGenerator: NSObject {
         self.pdfContextInfo[paramName] = value
     }
 
-    /**
-     * Should be overridden by subclass.
-     * DON'T FORGET TO CALL SUPERCLASS METHOD!
-     */
+    /// Sets size for page. Avaiable standard sizes:
+    ///
+    /// - A5
+    /// - A4
+    /// - US Letter
+    public func setPageFormat(size: PDFPageSize, orientation: PDFPageOrientation) {
+        var width: Float
+        var height: Float
+        switch size {
+        case .A4:
+            width = pointsFromMm(210)
+            height = pointsFromMm(297)
+        case .A5:
+            width = pointsFromMm(148)
+            height = pointsFromMm(210)
+        case .Letter:
+            width = pointsFromMm(216)
+            height = pointsFromMm(279)
+        }
+
+        switch orientation {
+        case .Portrait: self.pageWidth = width; self.pageHeight = height
+        case .Landscape: self.pageWidth = height; self.pageHeight = width
+        }
+    }
+
+    /// Should be overridden by subclass.
+    ///
+    /// DON'T FORGET TO CALL SUPERCLASS METHOD!
     public func generate() {
+        let pageBounds = CGRectMake(0, 0, CGFloat(pageWidth), CGFloat(pageHeight))
         UIGraphicsBeginPDFContextToFile(self.outputFilePath, pageBounds, self.pdfContextInfo)
         self.startNewPage()
     }
 
-    /**
-     * Should be called in the end of the generate() method
-     */
+    /// Should be called in the end of the generate() method
     public func finish() {
         // Close the PDF context and write the contents out.
         UIGraphicsEndPDFContext()
     }
 
-    public func addY(space: Float) {
+    /// Adds vertical space before next element on page
+    ///
+    /// :param: space Vertical space before next element
+    func addY(space: Float) {
         if (!self.startNewPageIfNeeded(space)) {
             self.y += space
         }
     }
 
-    public func startNewPageIfNeeded(rowHeight: Float) -> Bool {
+    private func startNewPageIfNeeded(rowHeight: Float) -> Bool {
         if (rowHeight > (pageHeight - pageTopMargin - pageBottomMargin - self.y)) {
             self.startNewPage()
             return true
@@ -131,6 +189,7 @@ public class PDFGenerator: NSObject {
         UIGraphicsBeginPDFPage()
     }
 
+    /// Draws page title if set
     public func drawPageTitle() {
         if let title = self.pageTitle {
             drawPageTitle(title)
@@ -149,6 +208,9 @@ public class PDFGenerator: NSObject {
         self.y += vSpaceAfterPageTitle
     }
 
+    /// Draws table
+    ///
+    /// :param: table Table to draw
     public func drawTable(table: PDFTable) {
         self.drawTableHeader(table)
 
@@ -377,10 +439,11 @@ public class PDFGenerator: NSObject {
         return NSAttributedString(attributedString: attributedString)
     }
 
-    func drawFrame(rect: CGRect) {
-        drawFrame(rect, cellAttributes: nil)
-    }
-    func drawFrame(rect: CGRect, cellAttributes: Array<PDFTableCellAttribute>?) {
+    /// Low level method which draws frame according to rect with cell attributes
+    ///
+    /// :param: rect Position and size of the frame
+    /// :param: cellAttributes Attributes of cell frame and filling
+    func drawFrame(rect: CGRect, cellAttributes: Array<PDFTableCellAttribute>? = nil) {
         var lineWidth: Float? = defaultTableFrameWidth
         var lineColor: UIColor = UIColor.blackColor()
         var fillColor: UIColor?
@@ -415,9 +478,10 @@ public class PDFGenerator: NSObject {
         }
     }
 
-    /**
-     * Low level level which draws atring inside the frame
-     */
+    /// Low level method which draws string inside the frame
+    ///
+    /// :param: string Attributed string to draw
+    /// :param: inFrame Frame which restricts the text on page
     public func drawString(string: NSAttributedString, inFrame rect: CGRect) {
         if (string.length == 0) {
             return
