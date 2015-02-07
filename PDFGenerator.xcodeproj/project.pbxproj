@@ -7,111 +7,111 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C82118621A841F6D00A1276A /* PDFGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = C82118611A841F6D00A1276A /* PDFGenerator.h */; };
-		C8DCED701A834A27001D302E /* PDFGenerator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8DCED641A834A27001D302E /* PDFGenerator.framework */; };
-		C8DCED771A834A27001D302E /* PDFGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DCED761A834A27001D302E /* PDFGeneratorTests.swift */; };
-		C8DCED871A834C69001D302E /* PDFGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DCED811A834C69001D302E /* PDFGenerator.swift */; };
-		C8DCED881A834C69001D302E /* PDFTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DCED821A834C69001D302E /* PDFTable.swift */; };
+		C8FBB4F41A8609B700677747 /* PDFGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = C8FBB4F31A8609B700677747 /* PDFGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C8FBB4FA1A8609B700677747 /* PDFGenerator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FBB4EE1A8609B700677747 /* PDFGenerator.framework */; };
+		C8FBB5011A8609B700677747 /* PDFGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FBB5001A8609B700677747 /* PDFGeneratorTests.swift */; };
+		C8FBB50D1A8609F600677747 /* PDFGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FBB50B1A8609F600677747 /* PDFGenerator.swift */; };
+		C8FBB50E1A8609F600677747 /* PDFTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FBB50C1A8609F600677747 /* PDFTable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C8DCED711A834A27001D302E /* PBXContainerItemProxy */ = {
+		C8FBB4FB1A8609B700677747 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C8DCED5B1A834A27001D302E /* Project object */;
+			containerPortal = C8FBB4E51A8609B700677747 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = C8DCED631A834A27001D302E;
+			remoteGlobalIDString = C8FBB4ED1A8609B700677747;
 			remoteInfo = PDFGenerator;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C82118611A841F6D00A1276A /* PDFGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFGenerator.h; sourceTree = "<group>"; };
-		C8DCED641A834A27001D302E /* PDFGenerator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PDFGenerator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C8DCED681A834A27001D302E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C8DCED6F1A834A27001D302E /* PDFGeneratorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDFGeneratorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C8DCED751A834A27001D302E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C8DCED761A834A27001D302E /* PDFGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFGeneratorTests.swift; sourceTree = "<group>"; };
-		C8DCED811A834C69001D302E /* PDFGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFGenerator.swift; sourceTree = "<group>"; };
-		C8DCED821A834C69001D302E /* PDFTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFTable.swift; sourceTree = "<group>"; };
+		C8FBB4EE1A8609B700677747 /* PDFGenerator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PDFGenerator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8FBB4F21A8609B700677747 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C8FBB4F31A8609B700677747 /* PDFGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFGenerator.h; sourceTree = "<group>"; };
+		C8FBB4F91A8609B700677747 /* PDFGeneratorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDFGeneratorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8FBB4FF1A8609B700677747 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C8FBB5001A8609B700677747 /* PDFGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFGeneratorTests.swift; sourceTree = "<group>"; };
+		C8FBB50B1A8609F600677747 /* PDFGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFGenerator.swift; sourceTree = "<group>"; };
+		C8FBB50C1A8609F600677747 /* PDFTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFTable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		C8DCED601A834A27001D302E /* Frameworks */ = {
+		C8FBB4EA1A8609B700677747 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C8DCED6C1A834A27001D302E /* Frameworks */ = {
+		C8FBB4F61A8609B700677747 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8DCED701A834A27001D302E /* PDFGenerator.framework in Frameworks */,
+				C8FBB4FA1A8609B700677747 /* PDFGenerator.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C8DCED5A1A834A27001D302E = {
+		C8FBB4E41A8609B700677747 = {
 			isa = PBXGroup;
 			children = (
-				C8DCED661A834A27001D302E /* PDFGenerator */,
-				C8DCED731A834A27001D302E /* PDFGeneratorTests */,
-				C8DCED651A834A27001D302E /* Products */,
+				C8FBB4F01A8609B700677747 /* PDFGenerator */,
+				C8FBB4FD1A8609B700677747 /* PDFGeneratorTests */,
+				C8FBB4EF1A8609B700677747 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		C8DCED651A834A27001D302E /* Products */ = {
+		C8FBB4EF1A8609B700677747 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C8DCED641A834A27001D302E /* PDFGenerator.framework */,
-				C8DCED6F1A834A27001D302E /* PDFGeneratorTests.xctest */,
+				C8FBB4EE1A8609B700677747 /* PDFGenerator.framework */,
+				C8FBB4F91A8609B700677747 /* PDFGeneratorTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C8DCED661A834A27001D302E /* PDFGenerator */ = {
+		C8FBB4F01A8609B700677747 /* PDFGenerator */ = {
 			isa = PBXGroup;
 			children = (
-				C82118611A841F6D00A1276A /* PDFGenerator.h */,
-				C8DCED801A834C69001D302E /* Source */,
-				C8DCED671A834A27001D302E /* Supporting Files */,
+				C8FBB4F31A8609B700677747 /* PDFGenerator.h */,
+				C8FBB50A1A8609F600677747 /* Source */,
+				C8FBB4F11A8609B700677747 /* Supporting Files */,
 			);
 			path = PDFGenerator;
 			sourceTree = "<group>";
 		};
-		C8DCED671A834A27001D302E /* Supporting Files */ = {
+		C8FBB4F11A8609B700677747 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C8DCED681A834A27001D302E /* Info.plist */,
+				C8FBB4F21A8609B700677747 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		C8DCED731A834A27001D302E /* PDFGeneratorTests */ = {
+		C8FBB4FD1A8609B700677747 /* PDFGeneratorTests */ = {
 			isa = PBXGroup;
 			children = (
-				C8DCED761A834A27001D302E /* PDFGeneratorTests.swift */,
-				C8DCED741A834A27001D302E /* Supporting Files */,
+				C8FBB5001A8609B700677747 /* PDFGeneratorTests.swift */,
+				C8FBB4FE1A8609B700677747 /* Supporting Files */,
 			);
 			path = PDFGeneratorTests;
 			sourceTree = "<group>";
 		};
-		C8DCED741A834A27001D302E /* Supporting Files */ = {
+		C8FBB4FE1A8609B700677747 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C8DCED751A834A27001D302E /* Info.plist */,
+				C8FBB4FF1A8609B700677747 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		C8DCED801A834C69001D302E /* Source */ = {
+		C8FBB50A1A8609F600677747 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				C8DCED811A834C69001D302E /* PDFGenerator.swift */,
-				C8DCED821A834C69001D302E /* PDFTable.swift */,
+				C8FBB50B1A8609F600677747 /* PDFGenerator.swift */,
+				C8FBB50C1A8609F600677747 /* PDFTable.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -119,25 +119,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		C8DCED611A834A27001D302E /* Headers */ = {
+		C8FBB4EB1A8609B700677747 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C82118621A841F6D00A1276A /* PDFGenerator.h in Headers */,
+				C8FBB4F41A8609B700677747 /* PDFGenerator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		C8DCED631A834A27001D302E /* PDFGenerator */ = {
+		C8FBB4ED1A8609B700677747 /* PDFGenerator */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C8DCED7A1A834A27001D302E /* Build configuration list for PBXNativeTarget "PDFGenerator" */;
+			buildConfigurationList = C8FBB5041A8609B700677747 /* Build configuration list for PBXNativeTarget "PDFGenerator" */;
 			buildPhases = (
-				C8DCED5F1A834A27001D302E /* Sources */,
-				C8DCED601A834A27001D302E /* Frameworks */,
-				C8DCED611A834A27001D302E /* Headers */,
-				C8DCED621A834A27001D302E /* Resources */,
+				C8FBB4E91A8609B700677747 /* Sources */,
+				C8FBB4EA1A8609B700677747 /* Frameworks */,
+				C8FBB4EB1A8609B700677747 /* Headers */,
+				C8FBB4EC1A8609B700677747 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -145,71 +145,71 @@
 			);
 			name = PDFGenerator;
 			productName = PDFGenerator;
-			productReference = C8DCED641A834A27001D302E /* PDFGenerator.framework */;
+			productReference = C8FBB4EE1A8609B700677747 /* PDFGenerator.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		C8DCED6E1A834A27001D302E /* PDFGeneratorTests */ = {
+		C8FBB4F81A8609B700677747 /* PDFGeneratorTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C8DCED7D1A834A27001D302E /* Build configuration list for PBXNativeTarget "PDFGeneratorTests" */;
+			buildConfigurationList = C8FBB5071A8609B700677747 /* Build configuration list for PBXNativeTarget "PDFGeneratorTests" */;
 			buildPhases = (
-				C8DCED6B1A834A27001D302E /* Sources */,
-				C8DCED6C1A834A27001D302E /* Frameworks */,
-				C8DCED6D1A834A27001D302E /* Resources */,
+				C8FBB4F51A8609B700677747 /* Sources */,
+				C8FBB4F61A8609B700677747 /* Frameworks */,
+				C8FBB4F71A8609B700677747 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C8DCED721A834A27001D302E /* PBXTargetDependency */,
+				C8FBB4FC1A8609B700677747 /* PBXTargetDependency */,
 			);
 			name = PDFGeneratorTests;
 			productName = PDFGeneratorTests;
-			productReference = C8DCED6F1A834A27001D302E /* PDFGeneratorTests.xctest */;
+			productReference = C8FBB4F91A8609B700677747 /* PDFGeneratorTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		C8DCED5B1A834A27001D302E /* Project object */ = {
+		C8FBB4E51A8609B700677747 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Pavel Kazantsev";
 				TargetAttributes = {
-					C8DCED631A834A27001D302E = {
+					C8FBB4ED1A8609B700677747 = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
-					C8DCED6E1A834A27001D302E = {
+					C8FBB4F81A8609B700677747 = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
 				};
 			};
-			buildConfigurationList = C8DCED5E1A834A27001D302E /* Build configuration list for PBXProject "PDFGenerator" */;
+			buildConfigurationList = C8FBB4E81A8609B700677747 /* Build configuration list for PBXProject "PDFGenerator" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = C8DCED5A1A834A27001D302E;
-			productRefGroup = C8DCED651A834A27001D302E /* Products */;
+			mainGroup = C8FBB4E41A8609B700677747;
+			productRefGroup = C8FBB4EF1A8609B700677747 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C8DCED631A834A27001D302E /* PDFGenerator */,
-				C8DCED6E1A834A27001D302E /* PDFGeneratorTests */,
+				C8FBB4ED1A8609B700677747 /* PDFGenerator */,
+				C8FBB4F81A8609B700677747 /* PDFGeneratorTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		C8DCED621A834A27001D302E /* Resources */ = {
+		C8FBB4EC1A8609B700677747 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C8DCED6D1A834A27001D302E /* Resources */ = {
+		C8FBB4F71A8609B700677747 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -219,35 +219,35 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C8DCED5F1A834A27001D302E /* Sources */ = {
+		C8FBB4E91A8609B700677747 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8DCED871A834C69001D302E /* PDFGenerator.swift in Sources */,
-				C8DCED881A834C69001D302E /* PDFTable.swift in Sources */,
+				C8FBB50D1A8609F600677747 /* PDFGenerator.swift in Sources */,
+				C8FBB50E1A8609F600677747 /* PDFTable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C8DCED6B1A834A27001D302E /* Sources */ = {
+		C8FBB4F51A8609B700677747 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8DCED771A834A27001D302E /* PDFGeneratorTests.swift in Sources */,
+				C8FBB5011A8609B700677747 /* PDFGeneratorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C8DCED721A834A27001D302E /* PBXTargetDependency */ = {
+		C8FBB4FC1A8609B700677747 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C8DCED631A834A27001D302E /* PDFGenerator */;
-			targetProxy = C8DCED711A834A27001D302E /* PBXContainerItemProxy */;
+			target = C8FBB4ED1A8609B700677747 /* PDFGenerator */;
+			targetProxy = C8FBB4FB1A8609B700677747 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		C8DCED781A834A27001D302E /* Debug */ = {
+		C8FBB5021A8609B700677747 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -293,7 +293,7 @@
 			};
 			name = Debug;
 		};
-		C8DCED791A834A27001D302E /* Release */ = {
+		C8FBB5031A8609B700677747 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -332,7 +332,7 @@
 			};
 			name = Release;
 		};
-		C8DCED7B1A834A27001D302E /* Debug */ = {
+		C8FBB5051A8609B700677747 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEFINES_MODULE = YES;
@@ -348,7 +348,7 @@
 			};
 			name = Debug;
 		};
-		C8DCED7C1A834A27001D302E /* Release */ = {
+		C8FBB5061A8609B700677747 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEFINES_MODULE = YES;
@@ -364,7 +364,7 @@
 			};
 			name = Release;
 		};
-		C8DCED7E1A834A27001D302E /* Debug */ = {
+		C8FBB5081A8609B700677747 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -381,7 +381,7 @@
 			};
 			name = Debug;
 		};
-		C8DCED7F1A834A27001D302E /* Release */ = {
+		C8FBB5091A8609B700677747 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -397,34 +397,32 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C8DCED5E1A834A27001D302E /* Build configuration list for PBXProject "PDFGenerator" */ = {
+		C8FBB4E81A8609B700677747 /* Build configuration list for PBXProject "PDFGenerator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C8DCED781A834A27001D302E /* Debug */,
-				C8DCED791A834A27001D302E /* Release */,
+				C8FBB5021A8609B700677747 /* Debug */,
+				C8FBB5031A8609B700677747 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C8DCED7A1A834A27001D302E /* Build configuration list for PBXNativeTarget "PDFGenerator" */ = {
+		C8FBB5041A8609B700677747 /* Build configuration list for PBXNativeTarget "PDFGenerator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C8DCED7B1A834A27001D302E /* Debug */,
-				C8DCED7C1A834A27001D302E /* Release */,
+				C8FBB5051A8609B700677747 /* Debug */,
+				C8FBB5061A8609B700677747 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
-		C8DCED7D1A834A27001D302E /* Build configuration list for PBXNativeTarget "PDFGeneratorTests" */ = {
+		C8FBB5071A8609B700677747 /* Build configuration list for PBXNativeTarget "PDFGeneratorTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C8DCED7E1A834A27001D302E /* Debug */,
-				C8DCED7F1A834A27001D302E /* Release */,
+				C8FBB5081A8609B700677747 /* Debug */,
+				C8FBB5091A8609B700677747 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = C8DCED5B1A834A27001D302E /* Project object */;
+	rootObject = C8FBB4E51A8609B700677747 /* Project object */;
 }
