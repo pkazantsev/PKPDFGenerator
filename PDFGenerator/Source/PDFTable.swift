@@ -72,9 +72,14 @@ public enum PDFTableTextAttribute {
 }
 
 public enum PDFTableCellAttribute {
+    /// Sets width for cell frame
     case FrameWidth(FrameWidthAttribute)
+    /// Sets color for cell frame
     case FrameColor(UIColor)
-    case FillColor(UIColor?) // Allows to reset fill color
+    /// Sets fill color for cell or resets fill color if no value
+    case FillColor(UIColor?)
+    /// Sets count of columns which will be merged including the one with the attribute
+    case MergedColumns(Int)
 
     public enum FrameWidthAttribute {
         case NoWidth

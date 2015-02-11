@@ -37,22 +37,20 @@ let documentTitleFontSize: Float = 12.0
 
 private let vSpaceAfterPageTitle = pointsFromMm(10)
 
-private let defaultTableFrameWidth = pointsFromMm(0.2)
-
 private struct PreparedCell {
     let cellWidth: Float
     let cellType: PreparedCellType
     let cellAttributes: Array<PDFTableCellAttribute>?
-
-    private enum PreparedCellType {
-        case Empty
-        case TextCell(text: NSAttributedString)
-        case ImageCell(image: UIImage)
-        case CustomCell((frame: CGRect) -> ())
-    }
 }
 
-private let DRAW_STRING_RECT = true
+private enum PreparedCellType {
+    case Empty
+    case TextCell(text: NSAttributedString)
+    case ImageCell(image: UIImage)
+    case CustomCell((frame: CGRect) -> ())
+}
+
+private let DRAW_STRING_RECT = false
 
 public class PDFGenerator: NSObject {
 
@@ -73,7 +71,10 @@ public class PDFGenerator: NSObject {
     /// Default 10 mm
     public var pageBottomMargin = pointsFromMm(10)
 
-    /// Default 5 mm
+    /// Default 0.2mm
+    public var defaultTableFrameWidth = pointsFromMm(0.2)
+
+    /// 5 mm
     public let minSpaceBetweenBlocks = pointsFromMm(5)
 
     /// Default Helvetica Neue
@@ -170,7 +171,7 @@ public class PDFGenerator: NSObject {
     /// Adds vertical space before next element on page
     ///
     /// :param: space Vertical space before next element
-    func addY(space: Float) {
+    public func addY(space: Float) {
         if (!self.startNewPageIfNeeded(space)) {
             self.y += space
         }
@@ -220,7 +221,11 @@ public class PDFGenerator: NSObject {
             }
             for rowNum in 0..<table.numberOfRowsInSection(section) {
                 let row = table.rowAtIndex(rowNum, section: section)
-                self.drawRow(row, inTable: table)
+                if row.rowCells.count == 0 {
+                    NSLog("Row cells count for row \(rowNum) should not be 0!")
+                } else {
+                    self.drawRow(row, inTable: table)
+                }
             }
         }
     }
@@ -269,26 +274,34 @@ public class PDFGenerator: NSObject {
         var currentY = self.y
         var rowHeight: Float = 0.0
 
-        var columnsCountToSkip = 0
-
         var preparedCells = Array<PreparedCell>()
+
+        var columnsCountToSkip = 0
+        var cellType: PreparedCellType = .Empty
+        var cellAttributes: [PDFTableCellAttribute]?
+        var columnWidth: Float = 0
         for columnIndex in 0..<row.rowCells.count {
             let column = table.columns[columnIndex]
             // Add cell frame width so that this column right frame is overlaps the left frame of next frame
-            let columnWidth = self.widthForColumn(column, allColumns: table.columns) + defaultTableFrameWidth
-            var skipColumn = false // Will be used for merged cells
-            if columnsCountToSkip > 0 {
-                skipColumn = true
+            columnWidth += self.widthForColumn(column, allColumns: table.columns) + (columnWidth > 0 ? 0 : defaultTableFrameWidth)
+            var cellShouldBeMerged = false
+            if columnsCountToSkip > 0 { // If the last one left — draw it
                 columnsCountToSkip--
+                if columnsCountToSkip > 0 {
+                    continue
+                }
+                cellShouldBeMerged = true
             }
 
-            var cell: PreparedCell
-            if !skipColumn {
+            if !cellShouldBeMerged {
                 switch row.rowCells[columnIndex] {
-                case let .EmptyCell(frameAttibutes):
-                    cell = PreparedCell(cellWidth: columnWidth, cellType: .Empty, cellAttributes: frameAttibutes)
-                case let .TextCell(cellText, textAttributes, frameAttibutes):
+                case let .EmptyCell(cellAttr):
+                    cellAttributes = cellAttr
+                    cellType = .Empty
+                case let .TextCell(cellText, textAttributes, cellAttr):
+                    cellAttributes = cellAttr
                     let text = self.attributedStringWithText(cellText, columnAttributes: column.textAttributes, cellAttributes: textAttributes)
+                    cellType = .TextCell(text: text)
 
                     let maxTextRect = CGSizeMake(CGFloat(columnWidth - tableCellPadding * 2), CGFloat.max)
                     let textBounds = text.boundingRectWithSize(maxTextRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
@@ -296,20 +309,25 @@ public class PDFGenerator: NSObject {
                     if newRowHeight > rowHeight {
                         rowHeight = newRowHeight
                     }
-                    cell = PreparedCell(cellWidth: columnWidth, cellType: .TextCell(text: text), cellAttributes: frameAttibutes)
-                case let .ImageCell(image, frameAttibutes):
+                case let .ImageCell(image, cellAttr):
+                    cellAttributes = cellAttr
+                    cellType = .ImageCell(image: image)
+
                     let newRowHeight = Float(image.size.height) + tableCellPadding * 2
                     if newRowHeight > rowHeight {
                         rowHeight = newRowHeight
                     }
-                    cell = PreparedCell(cellWidth: columnWidth, cellType: .ImageCell(image: image), cellAttributes: frameAttibutes)
-                case let .CustomCell(drawingBlock, frameAttibutes):
-                    cell = PreparedCell(cellWidth: columnWidth, cellType: .CustomCell(drawingBlock), cellAttributes: frameAttibutes)
+                case let .CustomCell(drawingBlock, cellAttr):
+                    cellAttributes = cellAttr
+                    cellType = .CustomCell(drawingBlock)
                 }
-            } else {
-                cell = PreparedCell(cellWidth: columnWidth, cellType: .Empty, cellAttributes: nil)
+                if let columnsNum = cellAttributesContainCellsMerge(cellAttributes) {
+                    columnsCountToSkip = columnsNum - 1
+                    continue
+                }
             }
-            preparedCells.append(cell)
+            preparedCells.append(PreparedCell(cellWidth: columnWidth, cellType: cellType, cellAttributes: cellAttributes))
+            columnWidth = 0
         }
         if (self.startNewPageIfNeeded(rowHeight)) {
             self.drawTableHeader(table)
@@ -323,17 +341,16 @@ public class PDFGenerator: NSObject {
             drawFrame(cellFrame, cellAttributes: theCell.cellAttributes)
 
             switch theCell.cellType {
-            case .Empty:
-                // We've already drawn cell frame
+            case .Empty: // We've already drawn cell frame
                 break
             case let .TextCell(text):
                 let contentFrame = CGRectInset(cellFrame, CGFloat(tableCellPadding), CGFloat(tableCellPadding))
                 drawString(text, inFrame: contentFrame)
-                break
             case let .ImageCell(image):
+                // TODO: Implement image drawing!
                 break
             case let .CustomCell(drawingBlock):
-                break
+                drawingBlock(frame: cellFrame)
             }
 
             currentX += theCell.cellWidth - defaultTableFrameWidth
@@ -418,14 +435,13 @@ public class PDFGenerator: NSObject {
                 paragraph.alignment = value
                 attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraph, range: NSMakeRange(0, countElements(text)))
             case let .FontSizeAbsolute(value, range):
-                fontSize = value
-                let font = UIFont(name: fontName, size: CGFloat(fontSize))!
+                let font = UIFont(name: fontName, size: CGFloat(value))!
                 attributedString.addAttribute(NSFontAttributeName, value: font, range: range)
             case let .FontSizeRelative(value, range):
-                fontSize *= value
-                let font = UIFont(name: fontName, size: CGFloat(fontSize))!
+                let font = UIFont(name: fontName, size: CGFloat(fontSize * value))!
                 attributedString.addAttribute(NSFontAttributeName, value: font, range: range)
             case let .FontWeight(value, range):
+                var fontName = ""
                 switch value {
                 case .Normal: fontName = defaultFontName
                 case .Italic: fontName = defaultItalicFontName
@@ -437,6 +453,20 @@ public class PDFGenerator: NSObject {
         }
 
         return NSAttributedString(attributedString: attributedString)
+    }
+
+    private func cellAttributesContainCellsMerge(attributes: [PDFTableCellAttribute]?) -> Int? {
+        if let cellAttributes = attributes {
+            for attribute in cellAttributes {
+                switch attribute {
+                case let .MergedColumns(value):
+                    return value
+                default:
+                    continue
+                }
+            }
+        }
+        return nil
     }
 
     /// Low level method which draws frame according to rect with cell attributes
@@ -456,11 +486,11 @@ public class PDFGenerator: NSObject {
                     case let .NoWidth: lineWidth = nil
                     case let .Fixed(value): lineWidth = value
                     }
-                    break
                 case let .FrameColor(color):
                     lineColor = color
                 case let .FillColor(color):
                     fillColor = color
+                case .MergedColumns(_):
                     break
                 }
             }
