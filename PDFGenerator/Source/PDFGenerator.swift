@@ -35,8 +35,6 @@ public enum PDFPageOrientation {
 
 let documentTitleFontSize: Float = 12.0
 
-private let vSpaceAfterPageTitle = pointsFromMm(10)
-
 private struct PreparedCell {
     let cellWidth: Float
     let cellType: PreparedCellType
@@ -169,6 +167,7 @@ public class PDFGenerator: NSObject {
     }
 
     /// Adds vertical space before next element on page
+    /// Always call this method after you've drawn something in your subclass
     ///
     /// :param: space Vertical space before next element
     public func addY(space: Float) {
@@ -178,7 +177,7 @@ public class PDFGenerator: NSObject {
     }
 
     private func startNewPageIfNeeded(rowHeight: Float) -> Bool {
-        if (rowHeight > (pageHeight - pageTopMargin - pageBottomMargin - self.y)) {
+        if (rowHeight > (pageHeight - pageBottomMargin - self.y)) {
             self.startNewPage()
             return true
         }
@@ -206,7 +205,7 @@ public class PDFGenerator: NSObject {
         drawString(attributedTitle, inFrame: rect)
 
         self.y += Float(rect.size.height)
-        self.y += vSpaceAfterPageTitle
+        self.y += minSpaceBetweenBlocks
     }
 
     /// Draws table
@@ -224,7 +223,8 @@ public class PDFGenerator: NSObject {
                 if row.rowCells.count == 0 {
                     NSLog("Row cells count for row \(rowNum) should not be 0!")
                 } else {
-                    self.drawRow(row, inTable: table)
+                    let lastRowOfTable = (section == table.sectionsNumber - 1 && rowNum == table.numberOfRowsInSection(section) - 1)
+                    self.drawRow(row, inTable: table, linkWithNextBlockOfHeight: lastRowOfTable ? table.linkWithNextBlockOfHeight : nil)
                 }
             }
         }
@@ -270,7 +270,7 @@ public class PDFGenerator: NSObject {
         self.y += rowHeight - defaultTableFrameWidth
     }
 
-    private func drawRow(row: PDFTableRow, inTable table: PDFTable) {
+    private func drawRow(row: PDFTableRow, inTable table: PDFTable, linkWithNextBlockOfHeight: Float?) {
         var currentY = self.y
         var rowHeight: Float = 0.0
 
@@ -329,7 +329,11 @@ public class PDFGenerator: NSObject {
             preparedCells.append(PreparedCell(cellWidth: columnWidth, cellType: cellType, cellAttributes: cellAttributes))
             columnWidth = 0
         }
-        if (self.startNewPageIfNeeded(rowHeight)) {
+        var heightWithLinkedRow = rowHeight
+        if let linkedRowHeight = linkWithNextBlockOfHeight {
+            heightWithLinkedRow += rowHeight
+        }
+        if (self.startNewPageIfNeeded(heightWithLinkedRow)) {
             self.drawTableHeader(table)
             currentY = self.y
         }

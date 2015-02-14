@@ -13,6 +13,10 @@ public protocol PDFTable {
     var columns: Array<PDFTableColumn> { get }
 
     var sectionsNumber: Int { get }
+    /// Used to check if the last row of the table can be drawn on current page
+    /// with a next block of given height, if not – page break will be added
+    /// before drawing the last row.
+    var linkWithNextBlockOfHeight: Float? { get }
 
     func numberOfRowsInSection(section: Int) -> Int
     func titleForHeaderInSection(section: Int) -> String?
