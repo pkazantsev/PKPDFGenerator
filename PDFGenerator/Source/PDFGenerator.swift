@@ -437,7 +437,7 @@ public class PDFGenerator: NSObject {
             switch attribute {
             case let .Alignment(value):
                 paragraph.alignment = value
-                attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraph, range: NSMakeRange(0, countElements(text)))
+                attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraph, range: NSMakeRange(0, count(text)))
             case let .FontSizeAbsolute(value, range):
                 let font = UIFont(name: fontName, size: CGFloat(value))!
                 attributedString.addAttribute(NSFontAttributeName, value: font, range: range)
