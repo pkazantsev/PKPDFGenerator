@@ -307,7 +307,7 @@ public class PDFGenerator: NSObject {
                     cellType = .TextCell(text: text)
 
                     let maxTextRect = CGSizeMake(CGFloat(columnWidth - tableCellPadding * 2), CGFloat.max)
-                    let textBounds = text.boundingRectWithSize(maxTextRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+                    let textBounds = text.boundingRectWithSize(maxTextRect, options: .UsesLineFragmentOrigin | .UsesFontLeading, context: nil)
                     let newRowHeight = Float(textBounds.size.height) + tableCellPadding * 2
                     if newRowHeight > rowHeight {
                         rowHeight = newRowHeight
@@ -537,6 +537,6 @@ public class PDFGenerator: NSObject {
 
         UIColor.blackColor().setFill()
 
-        string.drawWithRect(rect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        string.drawWithRect(rect, options: .UsesLineFragmentOrigin | .UsesFontLeading, context: nil)
     }
 }
