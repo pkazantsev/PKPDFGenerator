@@ -100,6 +100,11 @@ public class PDFGenerator: NSObject {
         return contentMaxWidth
     }
 
+    /// Contain value only for columns with no width specified.
+    ///
+    /// Column property code as a key.
+    private var columnsWidth = [String: Float]()
+
     private let outputFilePath: String
     private var pdfContextInfo = Dictionary<String, String>()
     private(set) public var y: Float = 0.0
@@ -111,10 +116,9 @@ public class PDFGenerator: NSObject {
     }
 
     /// Adds document info to PDF document metadata. Supported:
-    ///
-    /// - DocumentName
-    /// - CreatorName
-    /// - Subject
+    ///  - DocumentName
+    ///  - CreatorName
+    ///  - Subject
     public func addDocumentInfo(param: PDFDocumentInfo, value: String) {
         var paramName: String
         switch param {
@@ -126,10 +130,9 @@ public class PDFGenerator: NSObject {
     }
 
     /// Sets size for page. Avaiable standard sizes:
-    ///
-    /// - A5
-    /// - A4
-    /// - US Letter
+    ///  - A5
+    ///  - A4
+    ///  - US Letter
     public func setPageFormat(size: PDFPageSize, orientation: PDFPageOrientation) {
         var width: Float
         var height: Float
@@ -366,7 +369,11 @@ public class PDFGenerator: NSObject {
     private func widthForColumn(column: PDFTableColumn, allColumns: Array<PDFTableColumn>) -> Float {
         var columnWidth = column.columnWidth
         if (columnWidth <= 0) {
-            // FIXME: Column width should not be calculated for every row!
+            if let width = self.columnsWidth[column.propertyName] {
+                columnWidth = width
+            }
+        }
+        if (columnWidth <= 0) {
             columnWidth = tableWidth
             var columnsWithoutWidthCount: Float = 0
             for column in allColumns {
@@ -379,9 +386,9 @@ public class PDFGenerator: NSObject {
             if (columnsWithoutWidthCount > 1) {
                 columnWidth /= columnsWithoutWidthCount
             }
+            NSLog("Column width for \(column.propertyName) is \(columnWidth)")
+            self.columnsWidth[column.propertyName] = columnWidth
         }
-
-        NSLog("Column width for \(column.propertyName) is \(columnWidth)")
 
         return columnWidth
     }
@@ -515,7 +522,7 @@ public class PDFGenerator: NSObject {
     /// Low level method which draws string inside the frame
     ///
     /// :param: string Attributed string to draw
-    /// :param: inFrame Frame which restricts the text on page
+    /// :param: rect Frame which restricts the text on page
     public func drawString(string: NSAttributedString, inFrame rect: CGRect) {
         if (string.length == 0) {
             return
