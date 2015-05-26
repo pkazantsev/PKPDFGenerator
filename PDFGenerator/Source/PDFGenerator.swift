@@ -158,6 +158,8 @@ public class PDFGenerator: NSObject {
     ///
     /// DON'T FORGET TO CALL SUPERCLASS METHOD!
     public func generate() {
+        self.columnsWidth.removeAll(keepCapacity: true) // Clear column width cache
+
         let pageBounds = CGRectMake(0, 0, CGFloat(pageWidth), CGFloat(pageHeight))
         UIGraphicsBeginPDFContextToFile(self.outputFilePath, pageBounds, self.pdfContextInfo)
         self.startNewPage()
