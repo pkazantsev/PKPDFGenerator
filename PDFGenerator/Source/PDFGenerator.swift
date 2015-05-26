@@ -315,8 +315,9 @@ public class PDFGenerator: NSObject {
                 case let .ImageCell(image, cellAttr):
                     cellAttributes = cellAttr
                     cellType = .ImageCell(image: image)
+                    let scale = (columnWidth - tableCellPadding * 2) / Float(image.size.width)
 
-                    let newRowHeight = Float(image.size.height) + tableCellPadding * 2
+                    let newRowHeight = Float(image.size.height) * scale + tableCellPadding * 2
                     if newRowHeight > rowHeight {
                         rowHeight = newRowHeight
                     }
@@ -354,7 +355,8 @@ public class PDFGenerator: NSObject {
                 let contentFrame = CGRectInset(cellFrame, CGFloat(tableCellPadding), CGFloat(tableCellPadding))
                 drawString(text, inFrame: contentFrame)
             case let .ImageCell(image):
-                // TODO: Implement image drawing!
+                let contentFrame = CGRectInset(cellFrame, CGFloat(tableCellPadding), CGFloat(tableCellPadding))
+                drawImage(image, inFrame: contentFrame)
                 break
             case let .CustomCell(drawingBlock):
                 drawingBlock(frame: cellFrame)
@@ -538,5 +540,18 @@ public class PDFGenerator: NSObject {
         UIColor.blackColor().setFill()
 
         string.drawWithRect(rect, options: .UsesLineFragmentOrigin | .UsesFontLeading, context: nil)
+    }
+
+    /// Low level method which draws image inside the frame.
+    /// The method does not change aspect ratio.
+    ///
+    /// :param: image UIImage to draw
+    /// :param: rect Frame which restricts the image on page
+    public func drawImage(image: UIImage, inFrame rect: CGRect) {
+        let scale = rect.size.width / image.size.width
+        let width = image.size.width * scale
+        let height = image.size.height * scale
+
+        image.drawInRect(CGRect(origin: rect.origin, size: CGSize(width: width, height: height)))
     }
 }
