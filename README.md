@@ -51,7 +51,7 @@ The core of the table.
 Can be set to one of:
 * Empty cell — draws only cell frame.
 * Text cell — draws text.
-* Image cell — draws image. *__To be implemented!__*
+* Image cell — draws image.
 * Custom cell — contains closure which takes position and size of the cell and can draw in frame of the cell. *__To be implemented!__*
 
 Cells of all types have `cellAttributes` property which is array of `PDFTableCellAttribute` and can be set to:
