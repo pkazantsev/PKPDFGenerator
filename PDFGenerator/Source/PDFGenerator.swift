@@ -174,7 +174,7 @@ public class PDFGenerator: NSObject {
     /// Adds vertical space before next element on page
     /// Always call this method after you've drawn something in your subclass
     ///
-    /// :param: space Vertical space before next element
+    /// - parameter space: Vertical space before next element
     public func addY(space: Float) {
         if (!self.startNewPageIfNeeded(space)) {
             self.y += space
@@ -215,7 +215,7 @@ public class PDFGenerator: NSObject {
 
     /// Draws table
     ///
-    /// :param: table Table to draw
+    /// - parameter table: Table to draw
     public func drawTable(table: PDFTable) {
         self.drawTableHeader(table)
 
@@ -237,10 +237,10 @@ public class PDFGenerator: NSObject {
 
     private func drawTableHeader(table: PDFTable) {
         var currentX = pageLeftMargin
-        var currentY = self.y
-        var rowHeight = tableHeaderHeight
+        let currentY = self.y
+        let rowHeight = tableHeaderHeight
         for column in table.columns {
-            var columnWidth = self.widthForColumn(column, allColumns: table.columns) + defaultTableFrameWidth
+            let columnWidth = self.widthForColumn(column, allColumns: table.columns) + defaultTableFrameWidth
             let frame = CGRectMake(CGFloat(currentX), CGFloat(currentY), CGFloat(columnWidth), CGFloat(rowHeight))
 
             drawFrame(frame)
@@ -256,9 +256,9 @@ public class PDFGenerator: NSObject {
     }
 
     private func drawTableSectionHeader(sectionTitle: String) {
-        var currentX = CGFloat(pageLeftMargin)
-        var currentY = CGFloat(self.y)
-        var columnWidth = tableWidth + defaultTableFrameWidth
+        let currentX = CGFloat(pageLeftMargin)
+        let currentY = CGFloat(self.y)
+        let columnWidth = tableWidth + defaultTableFrameWidth
 
         let text = NSMutableAttributedString(string: sectionTitle, attributes: attributesForTableSectionHeader())
         let maxTextRect = CGSizeMake(CGFloat(columnWidth - tableCellPadding * 2), CGFloat.max)
@@ -309,7 +309,7 @@ public class PDFGenerator: NSObject {
                     cellType = .TextCell(text: text)
 
                     let maxTextRect = CGSizeMake(CGFloat(columnWidth - tableCellPadding * 2), CGFloat.max)
-                    let textBounds = text.boundingRectWithSize(maxTextRect, options: .UsesLineFragmentOrigin | .UsesFontLeading, context: nil)
+                    let textBounds = text.boundingRectWithSize(maxTextRect, options: [.UsesLineFragmentOrigin, .UsesFontLeading], context: nil)
                     let newRowHeight = Float(textBounds.size.height) + tableCellPadding * 2
                     if newRowHeight > rowHeight {
                         rowHeight = newRowHeight
@@ -433,22 +433,22 @@ public class PDFGenerator: NSObject {
     private func attributedStringWithText(text: String, columnAttributes: Array<PDFTableTextAttribute>, cellAttributes: Array<PDFTableTextAttribute>?) -> NSAttributedString {
         var attributes = columnAttributes
         if let other = cellAttributes {
-            attributes.extend(other)
+            attributes.appendContentsOf(other)
         }
 
-        var fontName = defaultFontName
-        var fontSize = defaultTextFontSize
+        let fontName = defaultFontName
+        let fontSize = defaultTextFontSize
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .Center
         paragraph.lineBreakMode = .ByTruncatingMiddle
 
-        var attributedString = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: UIFont(name: fontName, size: CGFloat(fontSize))!])
+        let attributedString = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: UIFont(name: fontName, size: CGFloat(fontSize))!])
 
         for attribute in attributes {
             switch attribute {
             case let .Alignment(value):
                 paragraph.alignment = value
-                attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraph, range: NSMakeRange(0, count(text)))
+                attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraph, range: NSMakeRange(0, text.characters.count))
             case let .FontSizeAbsolute(value, range):
                 let font = UIFont(name: fontName, size: CGFloat(value))!
                 attributedString.addAttribute(NSFontAttributeName, value: font, range: range)
@@ -486,8 +486,8 @@ public class PDFGenerator: NSObject {
 
     /// Low level method which draws frame according to rect with cell attributes
     ///
-    /// :param: rect Position and size of the frame
-    /// :param: cellAttributes Attributes of cell frame and filling
+    /// - parameter rect: Position and size of the frame
+    /// - parameter cellAttributes: Attributes of cell frame and filling
     func drawFrame(rect: CGRect, cellAttributes: Array<PDFTableCellAttribute>? = nil) {
         var lineWidth: Float? = defaultTableFrameWidth
         var lineColor: UIColor = UIColor.blackColor()
@@ -498,7 +498,7 @@ public class PDFGenerator: NSObject {
                 switch attribute {
                 case let .FrameWidth(widthValue):
                     switch widthValue {
-                    case let .NoWidth: lineWidth = nil
+                    case .NoWidth: lineWidth = nil
                     case let .Fixed(value): lineWidth = value
                     }
                 case let .FrameColor(color):
@@ -525,8 +525,8 @@ public class PDFGenerator: NSObject {
 
     /// Low level method which draws string inside the frame
     ///
-    /// :param: string Attributed string to draw
-    /// :param: rect Frame which restricts the text on page
+    /// - parameter string: Attributed string to draw
+    /// - parameter rect: Frame which restricts the text on page
     public func drawString(string: NSAttributedString, inFrame rect: CGRect) {
         if (string.length == 0) {
             return
@@ -541,14 +541,14 @@ public class PDFGenerator: NSObject {
 
         UIColor.blackColor().setFill()
 
-        string.drawWithRect(rect, options: .UsesLineFragmentOrigin | .UsesFontLeading, context: nil)
+        string.drawWithRect(rect, options: [.UsesLineFragmentOrigin, .UsesFontLeading], context: nil)
     }
 
     /// Low level method which draws image inside the frame.
     /// The method does not change aspect ratio.
     ///
-    /// :param: image UIImage to draw
-    /// :param: rect Frame which restricts the image on page
+    /// - parameter image: UIImage to draw
+    /// - parameter rect: Frame which restricts the image on page
     public func drawImage(image: UIImage, inFrame rect: CGRect) {
         let scale = rect.size.width / image.size.width
         let width = image.size.width * scale
