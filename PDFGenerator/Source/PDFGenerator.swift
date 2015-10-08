@@ -310,7 +310,7 @@ public class PDFGenerator: NSObject {
 
                     let maxTextRect = CGSizeMake(CGFloat(columnWidth - tableCellPadding * 2), CGFloat.max)
                     let textBounds = text.boundingRectWithSize(maxTextRect, options: [.UsesLineFragmentOrigin, .UsesFontLeading], context: nil)
-                    let newRowHeight = Float(textBounds.size.height) + tableCellPadding * 2
+                    let newRowHeight = ceil(Float(textBounds.size.height) + tableCellPadding * 2)
                     if newRowHeight > rowHeight {
                         rowHeight = newRowHeight
                     }
@@ -319,7 +319,7 @@ public class PDFGenerator: NSObject {
                     cellType = .ImageCell(image: image)
                     let scale = (columnWidth - tableCellPadding * 2) / Float(image.size.width)
 
-                    let newRowHeight = Float(image.size.height) * scale + tableCellPadding * 2
+                    let newRowHeight = ceil(Float(image.size.height) * scale) + tableCellPadding * 2
                     if newRowHeight > rowHeight {
                         rowHeight = newRowHeight
                     }
@@ -337,7 +337,7 @@ public class PDFGenerator: NSObject {
         }
         var heightWithLinkedRow = rowHeight
         if let linkedRowHeight = linkWithNextBlockOfHeight {
-            heightWithLinkedRow += rowHeight
+            heightWithLinkedRow += linkedRowHeight
         }
         if (self.startNewPageIfNeeded(heightWithLinkedRow)) {
             self.drawTableHeader(table)
