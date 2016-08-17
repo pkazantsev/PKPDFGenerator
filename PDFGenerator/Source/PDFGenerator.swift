@@ -291,7 +291,7 @@ public class PDFGenerator: NSObject {
             columnWidth += self.widthForColumn(column, allColumns: table.columns) + (columnWidth > 0 ? 0 : defaultTableFrameWidth)
             var cellShouldBeMerged = false
             if columnsCountToSkip > 0 { // If the last one left — draw it
-                columnsCountToSkip--
+                columnsCountToSkip -= 1
                 if columnsCountToSkip > 0 {
                     continue
                 }
@@ -384,7 +384,7 @@ public class PDFGenerator: NSObject {
                 if column.columnWidth > 0 {
                     columnWidth -= column.columnWidth
                 } else {
-                    columnsWithoutWidthCount++
+                    columnsWithoutWidthCount += 1
                 }
             }
             if (columnsWithoutWidthCount > 1) {
@@ -511,7 +511,9 @@ public class PDFGenerator: NSObject {
             }
         }
 
-        let currentContext = UIGraphicsGetCurrentContext()
+        guard let currentContext = UIGraphicsGetCurrentContext() else {
+            return
+        }
         if let fillColor = fillColor {
             fillColor.setFill()
             UIRectFill(rect)
@@ -528,13 +530,19 @@ public class PDFGenerator: NSObject {
     /// - parameter string: Attributed string to draw
     /// - parameter rect: Frame which restricts the text on page
     public func drawString(string: NSAttributedString, inFrame rect: CGRect) {
-        if (string.length == 0) {
+        guard string.length > 0 else {
             return
         }
 
         if (DRAW_STRING_RECT) {
+            #if swift(>=2.3)
+                let context = UIGraphicsGetCurrentContext()!
+            #else
+                let context = UIGraphicsGetCurrentContext()
+            #endif
+
             UIColor.magentaColor().setStroke()
-            CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 0.4)
+            CGContextSetLineWidth(context, 0.4)
             UIRectFrame(rect)
             UIColor.blackColor().setStroke()
         }
