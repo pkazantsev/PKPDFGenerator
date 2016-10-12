@@ -18,16 +18,16 @@ public protocol PDFTable {
     /// before drawing the last row.
     var linkWithNextBlockOfHeight: Float? { get }
 
-    func numberOfRowsInSection(section: Int) -> Int
-    func titleForHeaderInSection(section: Int) -> String?
+    func numberOfRowsInSection(_ section: Int) -> Int
+    func titleForHeaderInSection(_ section: Int) -> String?
     func rowAtIndex(row: Int, section: Int) -> PDFTableRow
 }
 
 public struct PDFTableColumn {
-    private(set) public var columnWidth: Float
-    private(set) public var columnTitle: String
-    private(set) public var propertyName: String
-    private(set) public var textAttributes = Array<PDFTableTextAttribute>()
+    fileprivate(set) public var columnWidth: Float
+    fileprivate(set) public var columnTitle: String
+    fileprivate(set) public var propertyName: String
+    fileprivate(set) public var textAttributes = Array<PDFTableTextAttribute>()
 
     public init(title: String, propertyName: String, width: Float = -1) {
         self.columnTitle = title
@@ -35,7 +35,7 @@ public struct PDFTableColumn {
         self.propertyName = propertyName
     }
 
-    public mutating func addTextAttribute(attribute: PDFTableTextAttribute) {
+    public mutating func addTextAttribute(_ attribute: PDFTableTextAttribute) {
         textAttributes.append(attribute)
     }
 }
@@ -55,38 +55,38 @@ public struct PDFTableRow {
 /// - ImageCell - Draws image in a cell
 /// - CustomCell - Block executed expected to draw something in frame passed
 public enum PDFTableCell {
-    case EmptyCell(cellAttributes: Array<PDFTableCellAttribute>?)
-    case TextCell(String, textAttributes: Array<PDFTableTextAttribute>?, cellAttributes: Array<PDFTableCellAttribute>?)
-    case ImageCell(UIImage, cellAttributes: Array<PDFTableCellAttribute>?)
-    case CustomCell((frame: CGRect) -> (), cellAttributes: Array<PDFTableCellAttribute>?)
+    case emptyCell(cellAttributes: Array<PDFTableCellAttribute>?)
+    case textCell(String, textAttributes: Array<PDFTableTextAttribute>?, cellAttributes: Array<PDFTableCellAttribute>?)
+    case imageCell(UIImage, cellAttributes: Array<PDFTableCellAttribute>?)
+    case customCell((_ frame: CGRect) -> (), cellAttributes: Array<PDFTableCellAttribute>?)
 }
 
 public enum PDFTableTextAttribute {
-    case Alignment(NSTextAlignment)
+    case alignment(NSTextAlignment)
 
-    case FontWeight(TextFontWeight, range: NSRange)
-    case FontSizeAbsolute(Float, range: NSRange)
-    case FontSizeRelative(Float, range: NSRange)
+    case fontWeight(TextFontWeight, range: NSRange)
+    case fontSizeAbsolute(Float, range: NSRange)
+    case fontSizeRelative(Float, range: NSRange)
 
     public enum TextFontWeight {
-        case Normal
-        case Italic
-        case Bold
+        case normal
+        case italic
+        case bold
     }
 }
 
 public enum PDFTableCellAttribute {
     /// Sets width for cell frame
-    case FrameWidth(FrameWidthAttribute)
+    case frameWidth(FrameWidthAttribute)
     /// Sets color for cell frame
-    case FrameColor(UIColor)
+    case frameColor(UIColor)
     /// Sets fill color for cell or resets fill color if no value
-    case FillColor(UIColor?)
+    case fillColor(UIColor?)
     /// Sets count of columns which will be merged including the one with the attribute
-    case MergedColumns(Int)
+    case mergedColumns(Int)
 
     public enum FrameWidthAttribute {
-        case NoWidth
-        case Fixed(Float)
+        case noWidth
+        case fixed(Float)
     }
 }
