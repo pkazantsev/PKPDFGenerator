@@ -392,37 +392,31 @@ public class PDFGenerator: NSObject {
         return columnWidth
     }
 
-    private func attributesForPageTitle() -> [String: AnyObject] {
+    private func attributesForPageTitle() -> [NSAttributedString.Key: Any] {
         let font = UIFont(name: defaultFontName, size: CGFloat(documentTitleFontSize))!
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
         paragraph.lineBreakMode = .byTruncatingMiddle
 
-        let attributes: [String: AnyObject] = [NSFontAttributeName : font, NSParagraphStyleAttributeName : paragraph]
-
-        return attributes
+        return [.font : font, .paragraphStyle : paragraph]
     }
 
-    private func attributesForTableSectionHeader() -> [String: AnyObject] {
+    private func attributesForTableSectionHeader() -> [NSAttributedString.Key: Any] {
         let font = UIFont(name: defaultFontName, size: CGFloat(defaultTextFontSize))!
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
         paragraph.lineBreakMode = .byTruncatingMiddle
 
-        let attributes: [String: AnyObject] = [NSFontAttributeName : font, NSParagraphStyleAttributeName : paragraph]
-
-        return attributes
+        return [.font : font, .paragraphStyle : paragraph]
     }
 
-    private func attributesForTableColumnHeader() -> [String: AnyObject] {
+    private func attributesForTableColumnHeader() -> [NSAttributedString.Key: Any] {
         let font = UIFont(name: defaultBoldFontName, size: CGFloat(defaultTextFontSize))!
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
         paragraph.lineBreakMode = .byTruncatingMiddle
 
-        let attributes: [String: AnyObject] = [NSFontAttributeName : font, NSParagraphStyleAttributeName : paragraph]
-
-        return attributes
+        return [.font : font, .paragraphStyle : paragraph]
     }
 
     private func attributedString(_ text: String, columnAttributes: [PDFTableTextAttribute], cellAttributes: [PDFTableTextAttribute]?) -> NSAttributedString {
@@ -437,19 +431,19 @@ public class PDFGenerator: NSObject {
         paragraph.alignment = .center
         paragraph.lineBreakMode = .byTruncatingMiddle
 
-        let attributedString = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: UIFont(name: fontName, size: CGFloat(fontSize))!])
+        let attributedString = NSMutableAttributedString(string: text, attributes: [.font: UIFont(name: fontName, size: CGFloat(fontSize))!])
 
         for attribute in attributes {
             switch attribute {
             case let .alignment(value):
                 paragraph.alignment = value
-                attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraph, range: NSMakeRange(0, text.characters.count))
+                attributedString.addAttribute(.paragraphStyle, value: paragraph, range: NSMakeRange(0, text.count))
             case let .fontSizeAbsolute(value, range):
                 let font = UIFont(name: fontName, size: CGFloat(value))!
-                attributedString.addAttribute(NSFontAttributeName, value: font, range: range)
+                attributedString.addAttribute(.font, value: font, range: range)
             case let .fontSizeRelative(value, range):
                 let font = UIFont(name: fontName, size: CGFloat(fontSize * value))!
-                attributedString.addAttribute(NSFontAttributeName, value: font, range: range)
+                attributedString.addAttribute(.font, value: font, range: range)
             case let .fontWeight(value, range):
                 var fontName = ""
                 switch value {
@@ -458,7 +452,7 @@ public class PDFGenerator: NSObject {
                 case .bold: fontName = defaultBoldFontName
                 }
                 let font = UIFont(name: fontName, size: CGFloat(fontSize))!
-                attributedString.addAttribute(NSFontAttributeName, value: font, range: range)
+                attributedString.addAttribute(.font, value: font, range: range)
             }
         }
 

@@ -24,10 +24,10 @@ public protocol PDFTable {
 }
 
 public struct PDFTableColumn {
-    fileprivate(set) public var columnWidth: Float
-    fileprivate(set) public var columnTitle: String
-    fileprivate(set) public var propertyName: String
-    fileprivate(set) public var textAttributes = Array<PDFTableTextAttribute>()
+    private(set) public var columnWidth: Float
+    private(set) public var columnTitle: String
+    private(set) public var propertyName: String
+    private(set) public var textAttributes = Array<PDFTableTextAttribute>()
 
     public init(title: String, propertyName: String, width: Float = -1) {
         self.columnTitle = title
